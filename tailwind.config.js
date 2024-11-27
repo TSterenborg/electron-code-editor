@@ -1,7 +1,12 @@
 module.exports = {
 	content: ["./src/**/*.{html,js}"],
 	theme: {
-		extend: {},
+		extend: {
+			fontFamily: {
+				sfpro: ["SF Pro"],
+				segoefluenticons: ["Segoe Fluent Icons"],
+			},
+		},
 	},
 	plugins: [],
 }
