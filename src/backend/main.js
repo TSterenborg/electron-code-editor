@@ -7,6 +7,7 @@ function createWindow () {
         height: 600,
         minWidth: 1200,
         minHeight: 600,
+        frame: false,
         webPreferences: {
             preload: path.join(__dirname, '../frontend/preload.js')
         }

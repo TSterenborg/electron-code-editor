@@ -2,18 +2,19 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';"/>
 
     <!-- Styles -->
     <link rel="stylesheet" href="./styles/output.css">
 </head>
-<body>
-    <h1>Hello World!</h1>
-    <p>
-        We are using Node.js <span id="node-version"></span>,
-        Chromium <span id="chrome-version"></span>,
-        and Electron <span id="electron-version"></span>.
-    </p>
+<body class="flex h-screen w-screen bg-fill_secondary_background font-sfpro">
+    <div class="flex h-full w-[300px] flex-col border-r border-fill_border">
+        <div class="flex h-[35px] w-full border-b border-fill_border"></div>
+        <div class="flex flex-grow"></div>
+    </div>
+    <div class="flex h-full flex-grow flex-col">
+        <div style="-webkit-app-region: drag;" class="flex h-[35px] w-full border-b border-fill_border"></div>
+        <div class="flex flex-grow bg-fill_primary_background"></div>
+    </div>
 </body>
 </html>
