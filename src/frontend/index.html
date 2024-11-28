@@ -4,13 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';"/>
 
+    <!-- Scripts -->
+    <script src="./scripts/explorer.js" defer></script>
+
     <!-- Styles -->
     <link rel="stylesheet" href="./styles/output.css">
 </head>
-<body class="flex h-screen w-screen bg-fill_secondary_background font-sfpro">
+<body class="flex h-screen w-screen select-none bg-fill_secondary_background font-sfpro">
     <div class="flex h-full w-[300px] flex-col border-r border-fill_border">
-        <div class="flex h-[35px] w-full border-b border-fill_border"></div>
-        <div class="flex flex-grow"></div>
+        <div class="flex h-[35px] w-full border-b border-fill_border">
+            <button id="openProjectButton" class="h-full w-full bg-gray-500 text-[12px] font-semibold uppercase">Open Folder</button>
+        </div>
+        <div class="flex flex-grow flex-col text-color_primary_text">
+            <ul id="projectEntries"></ul>
+        </div>
     </div>
     <div class="flex h-full flex-grow flex-col">
         <div style="-webkit-app-region: drag;" class="flex h-[35px] w-full border-b border-fill_border"></div>
