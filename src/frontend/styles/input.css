@@ -11,3 +11,9 @@
     font-family: "Segoe Fluent Icons";
     src: url("../assets/fonts/Segoe Fluent Icons.ttf");
 }
+
+@layer utilities {
+    .scrollbar-hidden::-webkit-scrollbar {
+        display: none;
+    }
+}
