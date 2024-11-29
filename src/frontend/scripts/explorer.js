@@ -57,6 +57,12 @@ function renderEntries(entries, parentElement, level = 0) {
                     chevron.innerHTML = "&#xe96e;";
                 }
             });
+        } else {
+            const fileDiv = listItem.querySelector(".cursor-pointer");
+            fileDiv.addEventListener("click", (event) => {
+                event.stopPropagation();
+                console.log(entry.path);
+            });
         }
         
         parentElement.appendChild(listItem);
