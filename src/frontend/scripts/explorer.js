@@ -93,13 +93,15 @@ function renderEntries(entries, parentElement, level = 0) {
                 console.log(entry.path);
 
                 const fileContent = await window.electron.readFile(entry.path);
-                
+
                 if (fileContent === null) {
                     console.error("Failed to load file content");
                     return;
                 }
 
                 const language = detectLanguage(entry.name);
+
+                currentFilePath = entry.path;
 
                 if (!editorInstance) {
                     editorInstance = monaco.editor.create(document.getElementById("editorContainer"), {
@@ -117,7 +119,6 @@ function renderEntries(entries, parentElement, level = 0) {
                     monaco.editor.setModelLanguage(editorInstance.getModel(), language);
                 }
 
-                currentFilePath = entry.path;
                 editorInstance.setPosition({ lineNumber: 1, column: 1 });
                 editorInstance.revealPositionInCenter({ lineNumber: 1, column: 1 });
             });
