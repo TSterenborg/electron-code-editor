@@ -1,3 +1,8 @@
+import * as monaco from "monaco-editor";
+
+let editorInstance = null;
+let currentFilePath = null;
+
 const folderTemplate = (name) => `
     <div class="flex h-[25px] w-full cursor-pointer items-center hover:bg-fill_primary_hover">
         <span class="chevron ml-[12px] flex h-full w-[24px] items-center justify-center font-segoefluenticons text-[10px]">&#xe970;</span>
@@ -13,6 +18,30 @@ const fileTemplate = (name) => `
         <span class="flex h-full w-full items-center truncate px-[8px] text-[14px]">${name}</span>
     </div>
 `;
+
+const detectLanguage = (fileName) => {
+    const ext = fileName.split(".").pop().toLowerCase();
+
+    const languages = monaco.languages.getLanguages();
+
+    const language = languages.find(lang => lang.extensions && lang.extensions.includes(`.${ext}`));
+
+    return language ? language.id : "plaintext";
+};
+
+const autoSave = async () => {
+    if (!currentFilePath || !editorInstance) {
+        return;
+    }
+
+    const content = editorInstance.getValue();
+    try {
+        await window.electron.saveFile(currentFilePath, content);
+        console.log(`Auto-saved: ${currentFilePath}`);
+    } catch (error) {
+        console.error(`Failed to auto-save: ${error.message}`);
+    }
+};
 
 document.getElementById("openProjectButton").addEventListener("click", async () => {
     const entries = await window.electron.openProject();
@@ -59,12 +88,41 @@ function renderEntries(entries, parentElement, level = 0) {
             });
         } else {
             const fileDiv = listItem.querySelector(".cursor-pointer");
-            fileDiv.addEventListener("click", (event) => {
+            fileDiv.addEventListener("click", async (event) => {
                 event.stopPropagation();
                 console.log(entry.path);
+
+                const fileContent = await window.electron.readFile(entry.path);
+                
+                if (fileContent === null) {
+                    console.error("Failed to load file content");
+                    return;
+                }
+
+                const language = detectLanguage(entry.name);
+
+                if (!editorInstance) {
+                    editorInstance = monaco.editor.create(document.getElementById("editorContainer"), {
+                        value: fileContent,
+                        language,
+                        theme: "vs-dark",
+                        automaticLayout: true,
+                    });
+
+                    editorInstance.onDidChangeModelContent(() => {
+                        autoSave();
+                    });
+                } else {
+                    editorInstance.setValue(fileContent);
+                    monaco.editor.setModelLanguage(editorInstance.getModel(), language);
+                }
+
+                currentFilePath = entry.path;
+                editorInstance.setPosition({ lineNumber: 1, column: 1 });
+                editorInstance.revealPositionInCenter({ lineNumber: 1, column: 1 });
             });
         }
-        
+
         parentElement.appendChild(listItem);
     });
 }

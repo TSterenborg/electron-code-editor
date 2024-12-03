@@ -1,5 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron/main")
 const path = require("node:path")
+const fs = require("fs")
+const fsp = require("fs/promises");
 
 const { getFolderContent } = require("./scripts/functions");
 
@@ -50,4 +52,26 @@ ipcMain.handle("explorer:open-project", async () => {
 
 ipcMain.handle("explorer:get-folder-content", async (event, folderPath) => {
     return getFolderContent(folderPath);
+});
+
+// Handle: Editor
+
+ipcMain.handle("editor:read-file", async (event, filePath) => {
+    try {
+        const content = fs.readFileSync(filePath, "utf-8");
+        return content;
+    } catch (error) {
+        console.error("Error reading file:", error);
+        return null;
+    }
+});
+
+ipcMain.handle("editor:save-file", async (event, { path: filePath, content }) => {
+    try {
+        await fsp.writeFile(filePath, content, "utf8");
+        return true;
+    } catch (error) {
+        console.error(`Failed to save file: ${error.message}`);
+        throw error;
+    }
 });
