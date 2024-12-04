@@ -19,8 +19,8 @@ function createWindow () {
         }
     })
 
-    win.on('maximize', () => {win.webContents.send('updateMaximizeButton', true)})
-    win.on('unmaximize', () => {win.webContents.send('updateMaximizeButton', false)});
+    win.on("maximize", () => {win.webContents.send("updateMaximizeButton", true)})
+    win.on("unmaximize", () => {win.webContents.send("updateMaximizeButton", false)});
 
     win.setMenuBarVisibility(false)
     win.loadFile(path.join(__dirname, "../frontend/index.html"))
@@ -44,11 +44,11 @@ app.on("window-all-closed", () => {
 
 // Handle: Window
 
-ipcMain.on('winMinimize', () => {
+ipcMain.on("winMinimize", () => {
     win.minimize();
 });
 
-ipcMain.on('winMaximize', () => {
+ipcMain.on("winMaximize", () => {
     if (win.isMaximized()) {
         win.restore();
     } else {
@@ -56,7 +56,7 @@ ipcMain.on('winMaximize', () => {
     }
 });
 
-ipcMain.on('winClose', () => {
+ipcMain.on("winClose", () => {
     app.quit();
 });
 

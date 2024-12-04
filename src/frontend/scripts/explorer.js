@@ -104,6 +104,15 @@ function renderEntries(entries, parentElement, level = 0) {
                 currentFilePath = entry.path;
 
                 if (!editorInstance) {
+                    monaco.editor.defineTheme("vs-custom", {
+                        base: "vs-dark",
+                        inherit: true,
+                        rules: [],
+                        colors: {
+                            "editor.background": "#181818",
+                        }
+                    });
+                    
                     editorInstance = monaco.editor.create(document.getElementById("editorContainer"), {
                         value: fileContent,
                         language,
@@ -111,7 +120,8 @@ function renderEntries(entries, parentElement, level = 0) {
                         automaticLayout: true,
                         minimap: {
                             enabled: false
-                        }
+                        },
+                        theme: "vs-custom",
                     });
 
                     editorInstance.onDidChangeModelContent(() => {
