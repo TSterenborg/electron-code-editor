@@ -109,6 +109,9 @@ function renderEntries(entries, parentElement, level = 0) {
                         language,
                         theme: "vs-dark",
                         automaticLayout: true,
+                        minimap: {
+                            enabled: false
+                        }
                     });
 
                     editorInstance.onDidChangeModelContent(() => {
