@@ -14,7 +14,15 @@ module.exports = {
 
 				fill_primary_hover: "#2A2D2E",
 
+				fill_item_hover: "#3D3D3D",
+        		fill_item_danger_hover: "#CA4949",
+
 				color_primary_text: "#9CA3AE",
+
+				color_secondary_text: "#9D9D9D",
+        		color_secondary_text_hover: "#F5F5F5",
+
+				
 			},
 		},
 	},

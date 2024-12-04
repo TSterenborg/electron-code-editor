@@ -5,8 +5,10 @@ const fsp = require("fs/promises");
 
 const { getFolderContent } = require("./scripts/functions");
 
+let win;
+
 function createWindow () {
-    let win = new BrowserWindow({
+    win = new BrowserWindow({
         width: 1200,
         height: 600,
         minWidth: 1200,
@@ -16,6 +18,9 @@ function createWindow () {
             preload: path.join(__dirname, "../frontend/preload.js")
         }
     })
+
+    win.on('maximize', () => {win.webContents.send('updateMaximizeButton', true)})
+    win.on('unmaximize', () => {win.webContents.send('updateMaximizeButton', false)});
 
     win.setMenuBarVisibility(false)
     win.loadFile(path.join(__dirname, "../frontend/index.html"))
@@ -36,6 +41,24 @@ app.on("window-all-closed", () => {
         app.quit()
     }
 })
+
+// Handle: Window
+
+ipcMain.on('winMinimize', () => {
+    win.minimize();
+});
+
+ipcMain.on('winMaximize', () => {
+    if (win.isMaximized()) {
+        win.restore();
+    } else {
+        win.maximize();
+    }
+});
+
+ipcMain.on('winClose', () => {
+    app.quit();
+});
 
 // Handle: Explorer
 
