@@ -44,9 +44,17 @@ const autoSave = async () => {
 };
 
 document.getElementById("openProjectButton").addEventListener("click", async () => {
-    const entries = await window.electron.openProject();
-    document.getElementById("projectEntries").innerHTML = "";
-    renderEntries(entries, document.getElementById("projectEntries"));
+    const result = await window.electron.openProject();
+    if (!result) return;
+
+    const { folderName, folderContent } = result;
+
+    const projectTitleElement = document.getElementById("projectTitle");
+    projectTitleElement.textContent = folderName || "Untitled Project";
+
+    const projectEntriesElement = document.getElementById("projectEntries");
+    projectEntriesElement.innerHTML = "";
+    renderEntries(folderContent, projectEntriesElement);
 });
 
 function renderEntries(entries, parentElement, level = 0) {

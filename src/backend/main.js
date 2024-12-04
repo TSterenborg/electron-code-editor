@@ -67,11 +67,15 @@ ipcMain.handle("explorer:open-project", async () => {
         properties: ["openDirectory"]
     });
 
-    if (result.canceled) return [];
+    if (result.canceled) return null;
 
     const folderPath = result.filePaths[0];
-    return getFolderContent(folderPath);
+    const folderName = path.basename(folderPath);
+    const folderContent = await getFolderContent(folderPath);
+
+    return { folderName, folderContent };
 });
+
 
 ipcMain.handle("explorer:get-folder-content", async (event, folderPath) => {
     return getFolderContent(folderPath);

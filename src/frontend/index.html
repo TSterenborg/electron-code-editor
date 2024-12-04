@@ -14,8 +14,9 @@
 </head>
 <body class="flex h-screen w-screen select-none bg-fill_secondary_background font-sfpro">
     <div class="flex h-full min-w-[300px] flex-col border-r border-fill_border">
-        <div class="flex min-h-[35px] w-full border-b border-fill_border">
-            <button id="openProjectButton" class="h-full w-full bg-gray-500 text-[12px] font-semibold uppercase">Open Folder</button>
+        <div class="flex min-h-[35px] w-full items-center justify-between border-b border-fill_border px-[12px] text-color_secondary_text">
+            <span id="projectTitle" class="text-[14px]">Untitled Project</span>
+            <button id="openProjectButton" class="font-segoefluenticons text-[14px]">&#xe8d5;</button>
         </div>
         <div class="scrollbar-hidden flex flex-grow flex-col overflow-y-auto py-[6px] text-color_primary_text">
             <ul id="projectEntries"></ul>
